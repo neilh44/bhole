@@ -262,11 +262,11 @@ inventory_manager = InventoryManager()
 def dashboard():
     """Main dashboard page"""
     inventory = inventory_manager.get_inventory()
-    low_stock = inventory_manager.get_low_stock_items()
+    low_stock = [{'flavor': flavor, 'count': count} for flavor, count in inventory.items() if 0 < count < 10]
     
     # Calculate totals
     total_items = sum(inventory.values())
-    total_flavors = len([f for f in inventory.values() if f > 0])
+    total_flavors = len([count for count in inventory.values() if count > 0])
     
     return render_template('dashboard.html', 
                          inventory=inventory,

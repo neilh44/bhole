@@ -21,10 +21,30 @@
 <h3>Current Inventory</h3>
 <div class="inventory-grid">
     {% for flavor, count in inventory.items() %}
-    <div class="inventory-item">
-        <strong>{{ flavor }}</strong><br>
-        <span style="font-size: 1.5em; color: #ff6b6b;">{{ count }}</span>
-    </div>
+        {% if count > 0 %}
+        <div class="inventory-item {{ 'low-stock' if count < 10 else '' }}">
+            <strong>{{ flavor }}</strong><br>
+            {% if count < 10 %}
+                <span style="font-size: 1.5em; color: #dc3545; font-weight: bold;">{{ count }}</span>
+                <br><small style="color: #dc3545;">⚠️ Low Stock</small>
+            {% else %}
+                <span style="font-size: 1.5em; color: #28a745;">{{ count }}</span>
+            {% endif %}
+        </div>
+        {% endif %}
     {% endfor %}
 </div>
+
+{% if inventory.values()|select('equalto', 0)|list|length > 0 %}
+<div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #6c757d;">
+    <h4 style="color: #6c757d; margin-bottom: 10px;">📦 Out of Stock Items</h4>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        {% for flavor, count in inventory.items() %}
+            {% if count == 0 %}
+            <span style="background: #e9ecef; padding: 5px 10px; border-radius: 3px; color: #6c757d; font-size: 0.9em;">{{ flavor }}</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 {% endblock %}

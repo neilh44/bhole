@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Havmor Ice Cream</title>
+    <title>Hamir Ice Cream</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body { 
@@ -87,7 +87,13 @@
         }
         .low-stock { 
             background: #fff3cd; 
-            border-left: 4px solid #ffc107; 
+            border-left: 4px solid #ffc107;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+            animation: pulse-warning 2s infinite;
+        }
+        @keyframes pulse-warning {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
         table { 
             width: 100%; 
@@ -107,7 +113,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🍦 Havmor Ice Cream</h1>
+            <h1>🍦 Hamir Ice Cream</h1>
         </div>
         
         <nav class="nav">
