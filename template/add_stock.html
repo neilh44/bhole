@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Add Stock</h2>
+
+<form method="POST" style="max-width: 400px;">
+    <div class="form-group">
+        <label>Flavor</label>
+        <select name="flavor" required>
+            <option value="">Select Flavor</option>
+            {% for flavor in flavors %}
+            <option value="{{ flavor }}">{{ flavor }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" name="count" min="1" required placeholder="Enter quantity">
+    </div>
+
+    <button type="submit" class="btn">Add to Inventory</button>
+</form>
+
+<div style="margin-top: 30px;">
+    <h3>Quick Add</h3>
+    <button onclick="setCount(12)" class="btn" style="background: #6c757d;">12 pieces</button>
+    <button onclick="setCount(24)" class="btn" style="background: #6c757d;">24 pieces</button>
+    <button onclick="setCount(48)" class="btn" style="background: #6c757d;">48 pieces</button>
+</div>
+
+<script>
+function setCount(count) {
+    document.querySelector('input[name="count"]').value = count;
+}
+</script>
+{% endblock %}

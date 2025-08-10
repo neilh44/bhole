@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Record Sale</h2>
+
+<form method="POST" style="max-width: 400px;">
+    <div class="form-group">
+        <label>Flavor</label>
+        <select name="flavor" required>
+            <option value="">Select Flavor</option>
+            {% for flavor in flavors %}
+            <option value="{{ flavor }}">{{ flavor }} ({{ inventory.get(flavor, 0) }} available)</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Quantity Sold</label>
+        <input type="number" name="quantity" min="1" required placeholder="Enter quantity">
+    </div>
+
+    <button type="submit" class="btn">Record Sale</button>
+</form>
+
+<h3>Current Stock</h3>
+<div class="inventory-grid">
+    {% for flavor, count in inventory.items() %}
+    <div class="inventory-item">
+        <strong>{{ flavor }}</strong><br>
+        {{ count }} available
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

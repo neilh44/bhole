@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Manage Flavors</h2>
+
+<!-- Add New Flavor Form -->
+<div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 30px;">
+    <h3>Add New Flavor</h3>
+    <form method="POST" style="display: flex; gap: 10px; align-items: end;">
+        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+            <label>Flavor Name</label>
+            <input type="text" name="new_flavor" placeholder="Enter new flavor name" required>
+        </div>
+        <button type="submit" class="btn">Add Flavor</button>
+    </form>
+</div>
+
+<!-- Current Flavors List -->
+<h3>Current Flavors</h3>
+<div class="inventory-grid">
+    {% for flavor in all_flavors %}
+    <div class="inventory-item">
+        <strong>{{ flavor }}</strong><br>
+        <span style="color: #666;">{{ inventory.get(flavor, 0) }} in stock</span>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Quick Add Common Flavors -->
+<div style="margin-top: 30px; background: #e9ecef; padding: 20px; border-radius: 5px;">
+    <h3>Quick Add Common Flavors</h3>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <form method="POST" style="display: inline;">
+            <input type="hidden" name="new_flavor" value="Royal Falooda">
+            <button type="submit" class="btn" style="background: #6c757d;">Royal Falooda</button>
+        </form>
+        <form method="POST" style="display: inline;">
+            <input type="hidden" name="new_flavor" value="Malai">
+            <button type="submit" class="btn" style="background: #6c757d;">Malai</button>
+        </form>
+        <form method="POST" style="display: inline;">
+            <input type="hidden" name="new_flavor" value="Rabri">
+            <button type="submit" class="btn" style="background: #6c757d;">Rabri</button>
+        </form>
+        <form method="POST" style="display: inline;">
+            <input type="hidden" name="new_flavor" value="Kesar Pista">
+            <button type="submit" class="btn" style="background: #6c757d;">Kesar Pista</button>
+        </form>
+        <form method="POST" style="display: inline;">
+            <input type="hidden" name="new_flavor" value="Dry Fruit">
+            <button type="submit" class="btn" style="background: #6c757d;">Dry Fruit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

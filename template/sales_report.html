@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Sales Report</h2>
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
+    <div style="background: #28a745; color: white; padding: 20px; border-radius: 5px; text-align: center;">
+        <h3>{{ total_sales_today }}</h3>
+        <p>Sales Today</p>
+    </div>
+    <div style="background: #007bff; color: white; padding: 20px; border-radius: 5px; text-align: center;">
+        <h3>{{ top_flavors|length }}</h3>
+        <p>Active Flavors</p>
+    </div>
+</div>
+
+{% if top_flavors %}
+<h3>Top Selling Flavors</h3>
+{% for flavor, count in top_flavors %}
+<div style="display: flex; justify-content: space-between; padding: 10px; background: #f8f9fa; margin: 5px 0; border-radius: 5px;">
+    <span><strong>{{ flavor }}</strong></span>
+    <span>{{ count }} sold</span>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if recent_sales %}
+<h3>Recent Sales</h3>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Flavor</th>
+        <th>Quantity</th>
+    </tr>
+    {% for sale in recent_sales[:10] %}
+    <tr>
+        <td>{{ sale.sale_date }}</td>
+        <td>{{ sale.flavor }}</td>
+        <td>{{ sale.quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
