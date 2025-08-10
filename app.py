@@ -44,6 +44,25 @@ class InventoryManager:
         # Initialize local storage files with default data
         self._init_local_storage()
     
+    def test_supabase_write(self):
+        """Test if we can write to Supabase"""
+        if not supabase:
+            return False, "Supabase not connected"
+        
+        try:
+            # Try to insert/update a test record
+            test_response = supabase.table('inventory').upsert({
+                'flavor': 'TEST_FLAVOR',
+                'count': 999
+            }).execute()
+            
+            # Clean up test record
+            supabase.table('inventory').delete().eq('flavor', 'TEST_FLAVOR').execute()
+            
+            return True, "Write test successful"
+        except Exception as e:
+            return False, f"Write test failed: {str(e)}"
+        
     def _init_local_storage(self):
         """Initialize local JSON files with default data if they don't exist"""
         inventory_file = 'data/inventory.json'
@@ -274,6 +293,27 @@ def dashboard():
                          total_items=total_items,
                          total_flavors=total_flavors,
                          flavors=inventory_manager.flavors)
+
+@app.route('/debug')
+def debug_supabase():
+    """Debug Supabase connection"""
+    debug_info = {
+        'supabase_connected': supabase is not None,
+        'supabase_url_set': bool(SUPABASE_URL and SUPABASE_URL != 'YOUR_SUPABASE_URL_HERE'),
+        'supabase_key_set': bool(SUPABASE_KEY and SUPABASE_KEY != 'YOUR_SUPABASE_ANON_KEY_HERE'),
+        'storage_mode': 'Database' if supabase else 'Local JSON'
+    }
+    
+    if supabase:
+        try:
+            # Test database connection
+            response = supabase.table('inventory').select('*').limit(1).execute()
+            debug_info['db_test'] = 'SUCCESS'
+            debug_info['db_records'] = len(response.data)
+        except Exception as e:
+            debug_info['db_test'] = f'FAILED: {str(e)}'
+    
+    return jsonify(debug_info)
 
 @app.route('/add_stock', methods=['GET', 'POST'])
 def add_stock():
